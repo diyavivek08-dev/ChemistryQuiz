@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ocean Chemistry Quest — Easy</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:20px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#dff7f1,#e5e8ff);font-family:Arial,sans-serif;color:#19334d}
+.card{width:100%;max-width:760px;background:#fff;border-radius:22px;padding:clamp(20px,5vw,36px);box-shadow:0 12px 35px #19334d20}
+h1{text-align:center;color:#087f8c;margin:0 0 8px}.sub{text-align:center;color:#607080;margin:0 0 24px}.level{text-align:center;background:#e7f7f6;border-radius:10px;padding:10px;font-weight:bold;margin-bottom:20px}
+.counter{font-size:14px;color:#607080;margin:10px 0}.qtitle{font-size:18px;font-weight:bold;margin:8px 0}.qtext{font-size:20px;line-height:1.55;margin:0 0 20px;white-space:pre-wrap}
+.options{display:grid;gap:11px}.option{border:2px solid #dce5ed;border-radius:12px;background:#fff;padding:14px;text-align:left;font-size:16px;cursor:pointer;color:#19334d}.option:hover:not(:disabled){background:#eefafa;border-color:#087f8c}.option:disabled{opacity:1;cursor:default}.correct{background:#d8f5df!important;border-color:#259447!important}.wrong{background:#ffe0e0!important;border-color:#d64545!important}
+.feedback{margin-top:18px;font-weight:bold;line-height:1.5;white-space:pre-wrap}.controls{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}.btn{flex:1;min-width:130px;border:0;border-radius:12px;padding:14px;background:#087f8c;color:white;font-weight:bold;font-size:16px;cursor:pointer}.btn.secondary{background:#e8eef5;color:#19334d}.score{text-align:center;color:#607080;margin-top:18px}.hidden{display:none!important}.note{font-size:12px;color:#607080;line-height:1.5;margin-top:22px}
+@media(max-width:450px){.qtext{font-size:18px}.card{padding:20px}}
+</style>
+</head>
+<body>
+<main class="card">
+<h1>🌊 Ocean Chemistry Quest — Easy</h1>
+<p class="sub">Dive in, think fast, and test your knowledge!</p>
+<div class="level">EASY LEVEL</div>
+<div id="quiz">
+<div class="counter" id="counter"></div>
+<div class="qtitle" id="qtitle"></div>
+<p class="qtext" id="qtext"></p>
+<div class="options" id="options"></div>
+<div class="feedback" id="feedback" aria-live="polite"></div>
+<div class="controls"><button class="btn" id="next" type="button">Next question</button><button class="btn secondary" id="restart" type="button">Restart quiz</button></div>
+<div class="score" id="score">Score: 0 / 0</div>
+</div>
+<div id="finished" class="hidden">
+<h2>Quiz complete!</h2><p id="final"></p>
+<button class="btn" id="again" type="button">Try again</button>
+</div>
+<p class="note">Questions are shuffled at the start. Each question appears once per round. Your score is kept on this device only and is not sent to a server.</p>
+</main>
+<script>
+const questions = [{"title": "The Mermaid's Magical Potion", "question": "A mermaid is developing a potion to help her survive in the deepest parts of the ocean. Her chemistry notes say that one property of a solution depends on the number of dissolved solute particles rather than their identity. Which of the following is a colligative property?", "options": ["Viscosity", "Surface tension", "Osmotic pressure", "Refractive index"], "answer": 2}, {"title": "The Crab's Treasure Chest", "question": "A crab discovers a locked treasure chest containing the coordination compound [Co(NH₃)₆]Cl₃. The lock opens only when the correct oxidation state of cobalt is entered. What is it?", "options": ["+1", "+2", "+3", "+6"], "answer": 2}, {"title": "The Dolphin Detective's Mystery", "question": "Two mysterious bottles wash up on the shore of a sunken ship. One contains an aldehyde and the other a ketone. Which reagent should the dolphin detective use to distinguish between them?", "options": ["Tollens' reagent", "NaCl solution", "Dilute HCl", "NaOH solution"], "answer": 0}, {"title": "The Sea Witch's Laboratory", "question": "A sea witch needs to prepare 2 litres of a potion containing exactly 0.5 moles of dissolved sea crystals. What should the molarity of her potion be?", "options": ["0.25 M", "0.5 M", "1.0 M", "4.0 M"], "answer": 0}, {"title": "The Octopus's Acid Attack", "question": "An octopus accidentally knocks four bottles off a shelf in its underwater laboratory. Which liquid is the strongest acid in aqueous solution?", "options": ["CH₃COOH", "C₂H₅OH", "H₂O", "HCl"], "answer": 3}, {"title": "The Ironclad Submarine", "question": "A submarine's navigation computer is analysing the complex ion [Fe(CN)₆]⁴⁻. To activate its next navigation system, the captain must enter the coordination number of iron. What is the correct number?", "options": ["2", "4", "6", "8"], "answer": 2}, {"title": "The Mermaid's Secret Message", "question": "A mermaid sends a coded chemical message to a marine scientist: CH₃CH₂CHO. The scientist must identify the compound's IUPAC name to decode the message. What is it?", "options": ["Propanone", "Propanal", "Propanol", "Propanoic acid"], "answer": 1}, {"title": "The Wizard's Transformation Potion", "question": "An underwater wizard reduces propanone to create a special alcohol potion. What type of alcohol will the wizard obtain?", "options": ["Primary alcohol", "Secondary alcohol", "Tertiary alcohol", "Phenol"], "answer": 1}, {"title": "The Speedy Seahorse's Challenge", "question": "A seahorse is studying a first-order reaction to develop a faster underwater cleaning solution. Its computer asks for the unit of the reaction's rate constant. Which unit should it enter?", "options": ["mol L⁻¹ s⁻¹", "L mol⁻¹ s⁻¹", "s⁻¹", "mol⁻¹ L s⁻¹"], "answer": 2}, {"title": "The Ocean's Most Electronegative Element", "question": "A deep-sea research team discovers four elements in a mysterious mineral sample. Which element has the highest electronegativity?", "options": ["Oxygen", "Nitrogen", "Fluorine", "Chlorine"], "answer": 2}, {"title": "The Clownfish's Atomic Adventure", "question": "A clownfish discovers a mysterious atom in a sunken treasure chest. The atom has 11 protons, 12 neutrons, and 10 electrons. What is its mass number?", "options": ["10", "11", "23", "33"], "answer": 2}, {"title": "The Octopus's Electron Puzzle", "question": "An octopus scientist is studying the electronic configuration of sodium (atomic number = 11). Which is the correct electronic configuration?", "options": ["2, 8, 1", "2, 7, 2", "2, 8, 2", "2, 9"], "answer": 0}, {"title": "The Seashell's Chemical Bond", "question": "A hermit crab wants to build a strong seashell using calcium chloride (CaCl₂). What type of bond is mainly present in calcium chloride?", "options": ["Covalent bond", "Ionic bond", "Metallic bond", "Hydrogen bond"], "answer": 1}, {"title": "The Jellyfish's Gas Laws", "question": "A jellyfish releases a bubble containing an ideal gas. If the temperature is kept constant and the pressure on the gas is doubled, what happens to its volume?", "options": ["It doubles", "It becomes four times larger", "It becomes half", "It remains unchanged"], "answer": 2}, {"title": "The Dolphin's Periodic Table Challenge", "question": "A dolphin finds four elements on an underwater research computer. Which element has the largest atomic radius?", "options": ["Li", "Be", "B", "C"], "answer": 0}];
+let order = [], index = 0, score = 0, answered = false;
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function start(){order=shuffle(questions.map((_,i)=>i));index=0;score=0;$("quiz").classList.remove("hidden");$("finished").classList.add("hidden");render();}
+function render(){
+ if(index>=order.length){$("quiz").classList.add("hidden");$("finished").classList.remove("hidden");$("final").textContent=`Your score: ${score} / ${order.length}`;return;}
+ answered=false;const q=questions[order[index]];
+ $("counter").textContent=`Question ${index+1} of ${order.length}`;
+ $("qtitle").textContent=q.title;$("qtext").textContent=q.question;
+ $("options").innerHTML="";$("feedback").textContent="";$("feedback").style.color="#19334d";
+ q.options.forEach((opt,i)=>{const b=document.createElement("button");b.type="button";b.className="option";b.textContent=String.fromCharCode(65+i)+". "+opt;b.addEventListener("click",()=>answer(i));$("options").appendChild(b);});
+ $("next").textContent=index===order.length-1?"Finish quiz":"Next question";
+ $("score").textContent=`Score: ${score} / ${index}`;
+}
+function answer(selected){
+ if(answered)return;answered=true;const q=questions[order[index]],buttons=$("options").querySelectorAll("button");
+ buttons.forEach(b=>b.disabled=true);buttons[q.answer].classList.add("correct");
+ if(selected===q.answer){score++;$("feedback").textContent="Correct!";$("feedback").style.color="#16803c";}
+ else{$("feedback").textContent="Not quite. The correct answer is "+String.fromCharCode(65+q.answer)+". "+q.options[q.answer];$("feedback").style.color="#c0392b";}
+ $("score").textContent=`Score: ${score} / ${index+1}`;
+}
+$("next").addEventListener("click",()=>{if(!answered){$("feedback").textContent="Choose an answer first!";$("feedback").style.color="#c0392b";return;}index++;render();});
+$("restart").addEventListener("click",start);$("again").addEventListener("click",start);start();
+</script>
+</body>
+</html>

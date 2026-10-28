@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ocean Chemistry Quest — Moderate</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:20px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#dff7f1,#e5e8ff);font-family:Arial,sans-serif;color:#19334d}
+.card{width:100%;max-width:760px;background:#fff;border-radius:22px;padding:clamp(20px,5vw,36px);box-shadow:0 12px 35px #19334d20}
+h1{text-align:center;color:#087f8c;margin:0 0 8px}.sub{text-align:center;color:#607080;margin:0 0 24px}.level{text-align:center;background:#e7f7f6;border-radius:10px;padding:10px;font-weight:bold;margin-bottom:20px}
+.counter{font-size:14px;color:#607080;margin:10px 0}.qtitle{font-size:18px;font-weight:bold;margin:8px 0}.qtext{font-size:20px;line-height:1.55;margin:0 0 20px;white-space:pre-wrap}
+.options{display:grid;gap:11px}.option{border:2px solid #dce5ed;border-radius:12px;background:#fff;padding:14px;text-align:left;font-size:16px;cursor:pointer;color:#19334d}.option:hover:not(:disabled){background:#eefafa;border-color:#087f8c}.option:disabled{opacity:1;cursor:default}.correct{background:#d8f5df!important;border-color:#259447!important}.wrong{background:#ffe0e0!important;border-color:#d64545!important}
+.feedback{margin-top:18px;font-weight:bold;line-height:1.5;white-space:pre-wrap}.controls{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}.btn{flex:1;min-width:130px;border:0;border-radius:12px;padding:14px;background:#087f8c;color:white;font-weight:bold;font-size:16px;cursor:pointer}.btn.secondary{background:#e8eef5;color:#19334d}.score{text-align:center;color:#607080;margin-top:18px}.hidden{display:none!important}.note{font-size:12px;color:#607080;line-height:1.5;margin-top:22px}
+@media(max-width:450px){.qtext{font-size:18px}.card{padding:20px}}
+</style>
+</head>
+<body>
+<main class="card">
+<h1>🌊 Ocean Chemistry Quest — Moderate</h1>
+<p class="sub">Dive in, think fast, and test your knowledge!</p>
+<div class="level">MODERATE LEVEL</div>
+<div id="quiz">
+<div class="counter" id="counter"></div>
+<div class="qtitle" id="qtitle"></div>
+<p class="qtext" id="qtext"></p>
+<div class="options" id="options"></div>
+<div class="feedback" id="feedback" aria-live="polite"></div>
+<div class="controls"><button class="btn" id="next" type="button">Next question</button><button class="btn secondary" id="restart" type="button">Restart quiz</button></div>
+<div class="score" id="score">Score: 0 / 0</div>
+</div>
+<div id="finished" class="hidden">
+<h2>Quiz complete!</h2><p id="final"></p>
+<button class="btn" id="again" type="button">Try again</button>
+</div>
+<p class="note">Questions are shuffled at the start. Each question appears once per round. Your score is kept on this device only and is not sent to a server.</p>
+</main>
+<script>
+const questions = [{"title": "The Glycerol Jellyfish", "question": "A marine biologist discovers a jellyfish that produces a glycerol-based solution. She dissolves 9.2 g of glycerol (molar mass = 92 g mol⁻¹) in 200 g of water to recreate the solution. What is its molality?", "options": ["0.25 mol kg⁻¹", "0.50 mol kg⁻¹", "1.00 mol kg⁻¹", "2.00 mol kg⁻¹"], "answer": 1}, {"title": "The Vanishing Plankton Mystery", "question": "In an underwater laboratory, a chemical reaction is causing a harmless population of simulated plankton particles to disappear. The reaction has a half-life of 20 minutes. How long will it take for 75% of the reactant to decompose?", "options": ["10 minutes", "20 minutes", "40 minutes", "60 minutes"], "answer": 2}, {"title": "The Shape-Shifting Starfish", "question": "A starfish-shaped research robot analyses transition metals recovered from a sunken ship. It discovers that many transition metals can exhibit variable oxidation states. What is the main reason?", "options": ["They have completely filled d-orbitals", "Their ns and (n−1)d electrons have similar energies", "They have very low atomic masses", "They do not form ions"], "answer": 1}, {"title": "The Sunken Ship's Chemical Leak", "question": "A marine chemist discovers a container of bromoethane leaking inside a sunken ship. She treats the sample with aqueous KOH. What is the major organic product formed?", "options": ["Ethene", "Ethanol", "Ethyne", "Ethanal"], "answer": 1}, {"title": "The Coral Queen's Royal Chemistry Quiz", "question": "The queen of the coral kingdom needs to arrange three bases in increasing order of basic strength in aqueous solution. Which sequence should she choose?", "options": ["(CH₃)₂NH < CH₃NH₂ < NH₃", "NH₃ < CH₃NH₂ < (CH₃)₂NH", "CH₃NH₂ < NH₃ < (CH₃)₂NH", "NH₃ < (CH₃)₂NH < CH₃NH₂"], "answer": 1}, {"title": "The Electric Eel's Super-Battery", "question": "An electric eel wants to power its underwater hideout using a chemical cell made from zinc and copper electrodes. The standard reduction potentials are E°(Zn²⁺/Zn) = −0.76 V and E°(Cu²⁺/Cu) = +0.34 V. What is the standard EMF of the cell?", "options": ["0.42 V", "0.76 V", "1.10 V", "1.52 V"], "answer": 2}, {"title": "The Phenol-Powered Coral Reef", "question": "A scientist studying a coral reef adds bromine water to a sample of phenol. To her surprise, the reaction proceeds readily without a catalyst! Why?", "options": ["The −OH group deactivates the benzene ring", "The −OH group activates the benzene ring", "Phenol is non-aromatic", "Bromine water acts only as a solvent"], "answer": 1}, {"title": "The Oxidising Octopus", "question": "An octopus chemist is experimenting with an oxidising agent to transform propan-2-ol into another compound. Which major product should appear in its reaction vessel?", "options": ["Propanal", "Propanone", "Propanoic acid", "Propene"], "answer": 1}, {"title": "The Magnetic Mystery of the Deep", "question": "A research team discovers two nickel complexes near a sunken submarine. The first is diamagnetic, while the second is paramagnetic. What explains this difference?", "options": ["CN⁻ is a strong-field ligand, while Cl⁻ is a weak-field ligand", "Both complexes have different oxidation states", "Cl⁻ is a stronger-field ligand than CN⁻", "Ni²⁺ has no d-electrons"], "answer": 0}, {"title": "The Silver Pearl Mission", "question": "A team of marine engineers is electroplating a giant silver pearl for the Ocean Museum. They need to deposit 10.8 g of silver from an Ag⁺ solution. Given that the molar mass of silver is 108 g mol⁻¹, how many moles of electrons are required? Ag⁺ + e⁻ → Ag.", "options": ["0.01 mol", "0.10 mol", "1.00 mol", "10.0 mol"], "answer": 1}, {"title": "The Sunken Ship's Enthalpy Mystery", "question": "A marine scientist burns 1 mole of methane in oxygen. The reaction releases 890 kJ of heat at constant pressure. What is the enthalpy change for the reaction as written for 1 mole of methane?", "options": ["+890 kJ mol⁻¹", "−890 kJ mol⁻¹", "0 kJ mol⁻¹", "−445 kJ mol⁻¹"], "answer": 1}, {"title": "The Crab's Equilibrium Chamber", "question": "A crab studies the equilibrium N₂(g) + 3H₂(g) ⇌ 2NH₃(g). If the pressure is increased at constant temperature, which way does the equilibrium shift?", "options": ["Towards the reactants", "Towards the products", "It does not shift", "The equilibrium constant increases"], "answer": 1}, {"title": "The Pufferfish's pH Challenge", "question": "A pufferfish accidentally releases a strong acid into a laboratory tank. The resulting solution has an H⁺ concentration of 1 × 10⁻³ mol L⁻¹. What is its pH?", "options": ["1", "2", "3", "11"], "answer": 2}, {"title": "The Sea Turtle's Quantum Leap", "question": "A sea turtle's research team studies an electron in a hydrogen atom. Which transition produces the emission of a photon?", "options": ["n = 1 to n = 3", "n = 2 to n = 4", "n = 4 to n = 2", "n = 2 to n = 3"], "answer": 2}, {"title": "The Whale's Molecular Geometry Mission", "question": "A whale discovers a molecule of BF₃ in an underwater chemistry lab. What is the shape of the BF₃ molecule?", "options": ["Tetrahedral", "Trigonal pyramidal", "Trigonal planar", "Bent"], "answer": 2}];
+let order = [], index = 0, score = 0, answered = false;
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function start(){order=shuffle(questions.map((_,i)=>i));index=0;score=0;$("quiz").classList.remove("hidden");$("finished").classList.add("hidden");render();}
+function render(){
+ if(index>=order.length){$("quiz").classList.add("hidden");$("finished").classList.remove("hidden");$("final").textContent=`Your score: ${score} / ${order.length}`;return;}
+ answered=false;const q=questions[order[index]];
+ $("counter").textContent=`Question ${index+1} of ${order.length}`;
+ $("qtitle").textContent=q.title;$("qtext").textContent=q.question;
+ $("options").innerHTML="";$("feedback").textContent="";$("feedback").style.color="#19334d";
+ q.options.forEach((opt,i)=>{const b=document.createElement("button");b.type="button";b.className="option";b.textContent=String.fromCharCode(65+i)+". "+opt;b.addEventListener("click",()=>answer(i));$("options").appendChild(b);});
+ $("next").textContent=index===order.length-1?"Finish quiz":"Next question";
+ $("score").textContent=`Score: ${score} / ${index}`;
+}
+function answer(selected){
+ if(answered)return;answered=true;const q=questions[order[index]],buttons=$("options").querySelectorAll("button");
+ buttons.forEach(b=>b.disabled=true);buttons[q.answer].classList.add("correct");
+ if(selected===q.answer){score++;$("feedback").textContent="Correct!";$("feedback").style.color="#16803c";}
+ else{$("feedback").textContent="Not quite. The correct answer is "+String.fromCharCode(65+q.answer)+". "+q.options[q.answer];$("feedback").style.color="#c0392b";}
+ $("score").textContent=`Score: ${score} / ${index+1}`;
+}
+$("next").addEventListener("click",()=>{if(!answered){$("feedback").textContent="Choose an answer first!";$("feedback").style.color="#c0392b";return;}index++;render();});
+$("restart").addEventListener("click",start);$("again").addEventListener("click",start);start();
+</script>
+</body>
+</html>
